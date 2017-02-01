@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+
+    mongo-express:
+        extends:
+            file: local-compose.yml
+            service: mongo-express
+        labels:
+            - triton.cns.services=mongo-express
+        network_mode: bridge
+
+    mongodb:
+        extends:
+            file: local-compose.yml
+            service: mongodb
+        mem_limit: 4g
+        labels:
+            - triton.cns.services=mongod
+        network_mode: bridge
+
+    consul:
+        extends:
+            file: local-compose.yml
+            service: consul
+        labels:
+            - triton.cns.services=consul
+        network_mode: bridge

@@ -1,0 +1,30 @@
+{
+	"consul": "{{ if .CONSUL }}{{ .CONSUL }}{{ else }}consul{{ end }}:8500",
+	"preStart": [
+		"consul-template",
+		"-once",
+		"-consul", "{{ if .CONSUL }}{{ .CONSUL }}{{ else }}consul{{ end }}:8500",
+		"-template", "/etc/mongo-express-env.ctmpl:/etc/mongo-express-env"
+	],
+	"services": [
+		{
+			"name": "mongo-express",
+			"port": 8081,
+			"health": "wget -q -O /dev/null http://localhost:8081",
+			"poll": 5,
+			"ttl": 25
+		}
+	],
+	"backends": [
+		{
+			"name": "mongodb-replicaset",
+			"poll": 5,
+			"onChange": [
+				"consul-template",
+				"-once",
+				"-consul", "{{ if .CONSUL }}{{ .CONSUL }}{{ else }}consul{{ end }}:8500",
+				"-template", "/etc/mongo-express-env.ctmpl:/etc/mongo-express-env:kill -TERM 1"
+			]
+		}
+	]
+}

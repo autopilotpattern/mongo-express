@@ -1,0 +1,8 @@
+{{- if service "mongodb-replicaset" -}}
+export ME_CONFIG_MONGODB_SERVER="
+	{{- range $i, $e := service "mongodb-replicaset" -}}
+		{{- if ne $i 0 -}} , {{- end -}}
+		{{ $e.Address }}
+	{{- end -}}
+"
+{{ end -}}
