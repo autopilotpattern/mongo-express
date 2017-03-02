@@ -17,11 +17,11 @@ Starting a new cluster is easy once you have [your `_env` file set with the conf
 **Triton**
 - `./setup.sh`
 - `docker-compose up -d`
-- `open $(triton ip mongoexpress_mongo-express_1):8081`
+- `open http://$(triton ip mongoexpress_mongo-express_1):8081`
 
 **Local (or Non-Triton)**
 - `docker-compose up -f local-compose.yml -d`
-- `open localhost:<assigned port>`
+- `open http://localhost:8081`
 
 The `setup.sh` script will check that your environment is setup correctly and will create an `_env` file that includes injecting an environment variable for the Consul hostname into the Mongo and Mongo-Express containers so we can take advantage of [Triton Container Name Service (CNS)](https://www.joyent.com/blog/introducing-triton-container-name-service).
 

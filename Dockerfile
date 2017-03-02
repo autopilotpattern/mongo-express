@@ -1,4 +1,4 @@
-FROM mongo-express:0.32
+FROM mongo-express:0.38
 
 # we need Container Pilot to monitor consul for MongoDB cluster changes so we can update ME_CONFIG_MONGODB_SERVER appropriately
 # "If it is a replica set, use a comma delimited list of the host names."
