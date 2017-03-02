@@ -1,15 +1,20 @@
 version: '2'
 
 services:
-
     mongo-express:
-        extends:
-            file: local-compose.yml
-            service: mongo-express
+        image: autopilotpattern/mongo-express
+        restart: always
+        mem_limit: "512m"
+        environment:
+            - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+            # ME_CONFIG_MONGODB_SERVER will get re-written by consul-template
+            - ME_CONFIG_MONGODB_SERVER=mongodb
         labels:
             - triton.cns.services=mongo-express
         network_mode: bridge
-
+        env_file: _env
+        ports:
+          - 8081
     mongodb:
         extends:
             file: local-compose.yml
@@ -18,7 +23,7 @@ services:
         labels:
             - triton.cns.services=mongod
         network_mode: bridge
-
+        env_file: _env
     consul:
         extends:
             file: local-compose.yml
